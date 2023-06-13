@@ -1,4 +1,6 @@
+import React, { useEffect } from 'react';
 import './App.css';
+import { handleRedirect } from './components/Authentication/AuthService';
 
 function App() {
   return (

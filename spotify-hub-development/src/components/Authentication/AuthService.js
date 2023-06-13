@@ -14,3 +14,13 @@ export const handleRedirect = () => {
         spotifyApi.setAccessToken(access_token);
     }
 };
+
+const getUrlParams = (hash) => {
+    const params = {};
+    const hashParams = hash.slice(1).split('&');
+    for (let param of hashParams) {
+        const [key, value] = param.split('=');
+        params[key] = value;
+    }
+    return params;
+};

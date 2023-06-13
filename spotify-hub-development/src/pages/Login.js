@@ -2,8 +2,11 @@ import { login } from '../components/Authentication/AuthService';
 import { useHistory } from 'react-router-dom';
 
 const LoginPage = () => {
+    const history = useHistory();
+
     const handleLogin = () => {
         login();
+        history.push('/hub');
     };
 
     return (

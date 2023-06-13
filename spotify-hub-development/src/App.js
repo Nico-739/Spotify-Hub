@@ -9,13 +9,16 @@ const App = () => {
   }, []);
 
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <h1>Spotify Hub</h1>
-        <p>Please log in with your Spotify account to continue.</p>
-        <a href="/login">Log in with Spotify</a>
-      </header>
-    </div>
+    <Router>
+      <div className='App'>
+        <header className='App-header'>
+          <h1>Spotify Hub</h1>
+        </header>
+        <Switch>
+          <Route exact path='/login' component={LoginPage} />
+        </Switch>
+      </div>
+    </Router>
   );
 };
 

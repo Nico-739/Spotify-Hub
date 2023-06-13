@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/Login';
+import { handleRedirect } from './components/Authentication/AuthService';
 
 const App = () => {
   useEffect(() => {

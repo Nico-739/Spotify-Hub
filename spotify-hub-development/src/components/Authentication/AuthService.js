@@ -7,4 +7,10 @@ const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=9927b119c4a74
 export const login = () => {
     window.location = AUTH_URL;
   };
-  
+
+export const handleRedirect = () => {
+    const { access_token } = getUrlParams(window.location.hash);
+    if(access_token) {
+        spotifyApi.setAccessToken(access_token);
+    }
+};

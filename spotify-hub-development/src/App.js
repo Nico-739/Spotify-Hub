@@ -8,7 +8,6 @@ const App = () => {
 
   useEffect(() => {
     handleRedirect().then(() => {
-      // Check if the user is authenticated
       const isAuthenticated = !!localStorage.getItem('accessToken');
       setAuthenticated(isAuthenticated);
     });

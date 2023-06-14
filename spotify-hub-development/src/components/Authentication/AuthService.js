@@ -26,7 +26,6 @@ export const handleRedirect = async () => {
   if (code) {
     const storedAccessToken = localStorage.getItem('accessToken');
     if (storedAccessToken) {
-      // Access token already exists, redirect to the desired page
       window.location.href = '/hub';
       return;
     }

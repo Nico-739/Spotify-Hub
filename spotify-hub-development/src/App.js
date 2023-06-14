@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import LoginPage from './pages/Login';
+import HubPage from './pages/Hub';
+import { handleRedirect } from './components/Authentication/AuthService';
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState('login');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     handleRedirect();
   }, []);
 
-  const handleRedirect = () => {
-    const url = new URL(window.location.href);
-    if (url.searchParams.get('access_token')) {
-      setCurrentPage('hub');
-    }
+  const handleLogin = () => {
+    setIsAuthenticated(true);
   };
 
   return (
@@ -20,8 +19,8 @@ const App = () => {
       <header className='App-header'>
         <h1>Spotify Hub</h1>
       </header>
-      {currentPage === 'login' && <LoginPage />}
-      {currentPage === 'hub' && <div>Welcome to the Hub!</div>}
+      {!isAuthenticated && <LoginPage onLogin={handleLogin} />}
+      {isAuthenticated && <HubPage />}
     </div>
   );
 };

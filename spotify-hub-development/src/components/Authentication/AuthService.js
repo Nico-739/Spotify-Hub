@@ -1,12 +1,22 @@
 import axios from 'axios';
-import SpotifyWebApi from 'spotify-web-api-js';
 
-const spotifyApi = new SpotifyWebApi();
+const clientId = '9927b119c4a7420ca10a6a881a955e6f';
+const clientSecret = '8776f50ee48b485780b87bce3bffca19';
+const redirectUri = 'http://localhost:3000';
 
-const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=9927b119c4a7420ca10a6a881a955e6f&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state&state=YOUR_STATE`;
+const scopes = [
+  'streaming',
+  'user-read-email',
+  'user-read-private',
+  'user-library-read',
+  'user-library-modify',
+  'user-read-playback-state',
+  'user-modify-playback-state',
+];
 
 export const login = () => {
-  window.location = AUTH_URL;
+  const authorizeURL = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes.join(' '))}`;
+  window.location.href = authorizeURL;
 };
 
 export const handleRedirect = async () => {
@@ -14,21 +24,54 @@ export const handleRedirect = async () => {
   const code = url.searchParams.get('code');
 
   if (code) {
-    try {
-      const response = await axios.post('https://accounts.spotify.com/api/token', null, {
-        params: {
-          grant_type: 'authorization_code',
-          code: code,
-          redirect_uri: 'http://localhost:3000',
-          client_id: '9927b119c4a7420ca10a6a881a955e6f',
-          client_secret: '8776f50ee48b485780b87bce3bffca19',
-        },
-      });
-
-      const accessToken = response.data.access_token;
-      spotifyApi.setAccessToken(accessToken);
-    } catch (error) {
-      console.error('Error exchanging authorization code for access token:', error);
+    const storedAccessToken = localStorage.getItem('accessToken');
+    if (storedAccessToken) {
+      // Access token already exists, redirect to the desired page
+      window.location.href = '/hub';
+      return;
     }
+
+    try {
+      const { access_token, refresh_token } = await exchangeCodeForTokens(code);
+
+      localStorage.setItem('accessToken', access_token);
+      localStorage.setItem('refreshToken', refresh_token);
+
+      // Reload the page to update the authentication status
+      window.location.reload();
+    } catch (error) {
+      console.error('Error exchanging authorization code for tokens:', error);
+      console.log('Response data:', error.response.data);
+    }
+  } else {
+    console.error('No authorization code found in the URL.');
   }
+};
+
+const exchangeCodeForTokens = async (code) => {
+  const params = new URLSearchParams();
+  params.append('grant_type', 'authorization_code');
+  params.append('code', code);
+  params.append('redirect_uri', redirectUri);
+  params.append('client_id', clientId);
+  params.append('client_secret', clientSecret);
+
+  try {
+    const response = await axios.post('https://accounts.spotify.com/api/token', params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error exchanging authorization code for tokens:', error);
+    throw error;
+  }
+};
+
+// eslint-disable-next-line
+export default {
+  login,
+  handleRedirect,
 };

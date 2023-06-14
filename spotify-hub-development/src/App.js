@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import LoginPage from './pages/Login';
+import Login from './pages/Login';
 import HubPage from './pages/Hub';
 import { handleRedirect } from './components/Authentication/AuthService';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    const handleAuthentication = async () => {
-      await handleRedirect();
-      setIsAuthenticated(true);
-    };
-
-    handleAuthentication();
+    handleRedirect().then(() => {
+      // Check if the user is authenticated
+      const isAuthenticated = !!localStorage.getItem('accessToken');
+      setAuthenticated(isAuthenticated);
+    });
   }, []);
 
   return (
-    <div className='App'>
-      {!isAuthenticated ? <LoginPage /> : <HubPage />}
+    <div>
+      {authenticated ? <HubPage /> : <Login />}
     </div>
   );
 };

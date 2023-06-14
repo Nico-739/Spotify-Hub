@@ -1,17 +1,17 @@
 import React from 'react';
-import { login } from '../components/Authentication/AuthService';
+import { login } from '../components/Authentication/AuthService'; 
 
-const LoginPage = () => {
-  const handleLoginClick = () => {
+const Login = () => {
+  const handleLogin = () => {
     login();
   };
 
   return (
     <div>
-      <h1>Login</h1>
-      <button onClick={handleLoginClick}>Log in with Spotify</button>
+      <h1>Spotify Login</h1>
+      <button onClick={handleLogin}>Login with Spotify</button>
     </div>
   );
 };
 
-export default LoginPage;
+export default Login;

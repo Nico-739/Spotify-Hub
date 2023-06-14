@@ -13,5 +13,6 @@ export const handleRedirect = () => {
     const accessToken = url.searchParams.get('access_token');
     if (accessToken) {
         spotifyApi.setAccessToken(accessToken);
+        window.location.href = '/hub';
     } 
 };

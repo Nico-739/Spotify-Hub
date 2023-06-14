@@ -1,9 +1,9 @@
 import React from 'react';
-import { handleRedirect } from '../components/Authentication/AuthService';
+import { login } from '../components/Authentication/AuthService';
 
 const LoginPage = () => {
   const handleLoginClick = () => {
-    handleRedirect();
+    login();
   };
 
   return (

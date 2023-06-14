@@ -7,20 +7,17 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    handleRedirect();
-  }, []);
+    const handleAuthentication = async () => {
+      await handleRedirect();
+      setIsAuthenticated(true);
+    };
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-  };
+    handleAuthentication();
+  }, []);
 
   return (
     <div className='App'>
-      <header className='App-header'>
-        <h1>Spotify Hub</h1>
-      </header>
-      {!isAuthenticated && <LoginPage onLogin={handleLogin} />}
-      {isAuthenticated && <HubPage />}
+      {!isAuthenticated ? <LoginPage /> : <HubPage />}
     </div>
   );
 };

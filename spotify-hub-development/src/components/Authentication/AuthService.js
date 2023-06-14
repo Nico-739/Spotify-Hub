@@ -36,7 +36,6 @@ export const handleRedirect = async () => {
       localStorage.setItem('accessToken', access_token);
       localStorage.setItem('refreshToken', refresh_token);
 
-      // Reload the page to update the authentication status
       window.location.reload();
     } catch (error) {
       console.error('Error exchanging authorization code for tokens:', error);

@@ -13,6 +13,7 @@ const scopes = [
   'user-library-modify',
   'user-read-playback-state',
   'user-modify-playback-state',
+  'playlist-read-private',
 ];
 
 export const login = () => {

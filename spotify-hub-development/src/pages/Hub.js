@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { fetchAndProcessProfileInfo, fetchFollowingStatus } from '../components/Profile/ProfileService';
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
+import { getFollowedArtists } from '../components/Artists/ArtistsService';
 
 const HubPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [followingStatus, setFollowingStatus] = useState(null);
   const [savedTracks, setSavedTracks] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState(null);
+  const [followedArtists, setFollowedArtists] = useState(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -25,6 +27,9 @@ const HubPage = () => {
 
         const playlists = await getUserPlaylists(accessToken);
         setUserPlaylists(playlists);
+
+        const artists = await getFollowedArtists(accessToken);
+        setFollowedArtists(artists);
       } catch (error) {
         console.error('Error fetching and processing profile info:', error);
       }
@@ -32,6 +37,34 @@ const HubPage = () => {
 
     fetchProfileData();
   }, []);
+
+  const renderFollowedArtists = () => {
+    if (!followedArtists) {
+      return <div>Loading followed artists...</div>;
+    }
+
+    if (followedArtists.length === 0) {
+      return <div>No followed artists found.</div>;
+    }
+
+    return (
+      <div>
+        <h3>Artists You Follow:</h3>
+        <ul>
+          {followedArtists.map((artist) => (
+            <li key={artist.id}>
+              <p>Name: {artist.name}</p>
+              <p>Followers: {artist.followers.total}</p>
+              <p>Genres: {artist.genres.join(', ')}</p>
+              {artist.images.length > 0 && (
+                <img src={artist.images[0].url} alt="Artist" style={{ width: '200px' }} />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
   const renderPlaylists = () => {
     if (!userPlaylists) {
@@ -103,6 +136,8 @@ const HubPage = () => {
       ) : (
         <div>Loading saved tracks...</div>
       )}
+
+      {renderFollowedArtists()}
 
       {renderPlaylists()}
     </div>

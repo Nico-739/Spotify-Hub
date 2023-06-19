@@ -8,6 +8,7 @@ const scopes = [
   'streaming',
   'user-read-email',
   'user-read-private',
+  'user-follow-read',
   'user-library-read',
   'user-library-modify',
   'user-read-playback-state',

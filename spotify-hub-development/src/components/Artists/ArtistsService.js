@@ -37,27 +37,27 @@ const refreshAccessToken = async () => {
 };
 
 export const getRecommendedArtists = async () => {
-    try {
-      let accessToken = localStorage.getItem('accessToken');
-      const tokenExpiry = localStorage.getItem('tokenExpiry');
-      const currentTime = new Date().getTime();
-  
-      if (!accessToken || currentTime > tokenExpiry) {
-        accessToken = await refreshAccessToken();
-      }
-  
-      const response = await axios.get('https://api.spotify.com/v1/browse/new-releases', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-  
-      return response.data.albums.items;
-    } catch (error) {
-      console.error('Error fetching recommended artists:', error);
-      throw error;
+  try {
+    let accessToken = localStorage.getItem('accessToken');
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
+    const currentTime = new Date().getTime();
+
+    if (!accessToken || currentTime > tokenExpiry) {
+      accessToken = await refreshAccessToken();
     }
-  };  
+
+    const response = await axios.get('https://api.spotify.com/v1/browse/new-releases', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data.albums.items.map((album) => album.artists[0]);
+  } catch (error) {
+    console.error('Error fetching recommended artists:', error);
+    throw error;
+  }
+};
 
 export const getArtistInfo = async (artistId) => {
   try {

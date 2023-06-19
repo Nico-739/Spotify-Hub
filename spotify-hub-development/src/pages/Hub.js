@@ -51,6 +51,9 @@ const HubPage = () => {
               <p>Name: {playlist.name}</p>
               <p>Owner: {playlist.owner.display_name}</p>
               <p>Total Tracks: {playlist.tracks.total}</p>
+              {playlist.images.length > 0 && (
+                <img src={playlist.images[0].url} alt="Playlist Cover" style={{ width: '200px' }} />
+              )}
             </li>
           ))}
         </ul>

@@ -8,64 +8,81 @@ const HubPage = () => {
   const [savedTracks, setSavedTracks] = useState(null);
 
   useEffect(() => {
-    const fetchProfileInfo = async () => {
+    const fetchProfileData = async () => {
       try {
         const accessToken = localStorage.getItem('accessToken');
-        const processedData = await fetchAndProcessProfileInfo(accessToken);
-        setProfileInfo(processedData);
-        const status = await fetchFollowingStatus(accessToken, 'artist', ['74ASZWbe4lXaubB36ztrGX', '08td7MxkoHQkXnWAYD8d6Q']);
-        setFollowingStatus(status);
-        const tracks = await getSavedTracks(accessToken, 'US');
-        setSavedTracks(tracks);
+
+        const processedProfileInfo = await fetchAndProcessProfileInfo(accessToken);
+        setProfileInfo(processedProfileInfo);
+
+        const followingStatus = await fetchFollowingStatus(accessToken, 'artist', ['74ASZWbe4lXaubB36ztrGX', '08td7MxkoHQkXnWAYD8d6Q']);
+        setFollowingStatus(followingStatus);
+
+        const savedTracks = await getSavedTracks(accessToken, 'US');
+        setSavedTracks(savedTracks);
       } catch (error) {
         console.error('Error fetching and processing profile info:', error);
       }
     };
 
-    fetchProfileInfo();
+    fetchProfileData();
   }, []);
+
+  const renderProfileInfo = () => {
+    if (!profileInfo) {
+      return <div>Loading profile information...</div>;
+    }
+
+    const { display_name, email, country, followers, images } = profileInfo;
+
+    return (
+      <div>
+        <h2>Welcome, {display_name}</h2>
+        <p>Email: {email}</p>
+        <p>Country: {country}</p>
+        <p>Followers: {followers.total}</p>
+        <p>Following Artists: {followingStatus ? 'Yes' : 'No'}</p>
+        {images.length > 0 && (
+          <p>
+            Profile Image: <img src={images[0].url} alt="Profile" />
+          </p>
+        )}
+      </div>
+    );
+  };
+
+  const renderSavedTracks = () => {
+    if (!savedTracks) {
+      return <div>Loading saved tracks...</div>;
+    }
+
+    return (
+      <div>
+        <h3>Your Saved Tracks:</h3>
+        <ul>
+          {savedTracks.items.map((item) => (
+            <li key={item.track.id}>
+              <div>
+                <img src={item.track.album.images[0].url} alt="Album" />
+              </div>
+              <div>
+                <p>{item.track.name}</p>
+                <p>
+                  {item.track.artists.map((artist) => artist.name).join(', ')} - {item.track.album.name}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
   return (
     <div>
       <h1>Hub Page Test</h1>
-      {profileInfo ? (
-        <div>
-          <h2>Welcome, {profileInfo.display_name}</h2>
-          <p>Email: {profileInfo.email}</p>
-          <p>Country: {profileInfo.country}</p>
-          <p>Followers: {profileInfo.followers.total}</p>
-          <p>Following Artists: {followingStatus ? 'Yes' : 'No'}</p>
-          {profileInfo.images.length > 0 && (
-            <p>
-              Profile Image: <img src={profileInfo.images[0].url} alt="Profile" />
-            </p>
-          )}
-        </div>
-      ) : (
-        <div>Loading profile information...</div>
-      )}
-      {savedTracks ? (
-        <div>
-          <h3>Your Saved Tracks:</h3>
-          <ul>
-            {savedTracks.items.map((item) => (
-              <li key={item.track.id}>
-                <div>
-                  <img src={item.track.album.images[0].url} alt="Album" />
-                </div>
-                <div>
-                  <p>{item.track.name}</p>
-                  <p>
-                    {item.track.artists.map((artist) => artist.name).join(', ')} - {item.track.album.name}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>Loading saved tracks...</div>
-      )}
+      {renderProfileInfo()}
+      {renderSavedTracks()}
     </div>
   );
 };

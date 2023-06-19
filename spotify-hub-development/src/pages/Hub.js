@@ -15,12 +15,12 @@ const HubPage = () => {
         setProfileInfo(processedData);
         const status = await fetchFollowingStatus(accessToken, 'artist', ['74ASZWbe4lXaubB36ztrGX', '08td7MxkoHQkXnWAYD8d6Q']);
         setFollowingStatus(status);
-        const tracks = await getSavedTracks(accessToken, 'US'); // Add a valid market code, e.g., 'US'
+        const tracks = await getSavedTracks(accessToken, 'US');
         setSavedTracks(tracks);
       } catch (error) {
         console.error('Error fetching and processing profile info:', error);
       }
-    };    
+    };
 
     fetchProfileInfo();
   }, []);
@@ -50,7 +50,15 @@ const HubPage = () => {
           <ul>
             {savedTracks.items.map((item) => (
               <li key={item.track.id}>
-                {item.track.name} by {item.track.artists.map((artist) => artist.name).join(', ')} from the album {item.album.name}
+                <div>
+                  <img src={item.track.album.images[0].url} alt="Album" />
+                </div>
+                <div>
+                  <p>{item.track.name}</p>
+                  <p>
+                    {item.track.artists.map((artist) => artist.name).join(', ')} - {item.track.album.name}
+                  </p>
+                </div>
               </li>
             ))}
           </ul>

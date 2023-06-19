@@ -50,7 +50,7 @@ const HubPage = () => {
           <ul>
             {savedTracks.items.map((item) => (
               <li key={item.track.id}>
-                {item.track.name} by {item.track.artists.map((artist) => artist.name).join(', ')}
+                {item.track.name} by {item.track.artists.map((artist) => artist.name).join(', ')} from the album {item.album.name}
               </li>
             ))}
           </ul>

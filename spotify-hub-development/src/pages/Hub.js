@@ -88,7 +88,7 @@ const HubPage = () => {
             {savedTracks.items.map((item) => (
               <li key={item.track.id}>
                 <div>
-                  <img src={item.track.album.images[0].url} alt="Album" />
+                  <img src={item.track.album.images[0].url} alt="Album" style={{ width: '200px' }} />
                 </div>
                 <div>
                   <p>{item.track.name}</p>

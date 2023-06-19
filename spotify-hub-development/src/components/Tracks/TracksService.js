@@ -13,12 +13,9 @@ export const getSavedTracks = async (accessToken, market = '', limit = 20, offse
       },
     });
 
-    console.log('API Response:', response.data); // Log the API response
-
     return response.data;
   } catch (error) {
     console.error('Error fetching saved tracks:', error);
-    console.log('Response data:', error.response.data); // Log the error response data
     throw error;
   }
 };

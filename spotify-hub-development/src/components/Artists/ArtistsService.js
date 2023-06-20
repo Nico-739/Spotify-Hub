@@ -1,13 +1,6 @@
 import axios from 'axios';
 
-const refreshAccessToken = async () => {
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  if (!refreshToken) {
-    console.error('Refresh token not found.');
-    return null;
-  }
-
+const refreshAccessToken = async (refreshToken) => {
   const clientId = '9927b119c4a7420ca10a6a881a955e6f';
   const clientSecret = '8776f50ee48b485780b87bce3bffca19';
 
@@ -24,10 +17,8 @@ const refreshAccessToken = async () => {
       },
     });
 
-    const { access_token, expires_in } = response.data;
-
+    const { access_token } = response.data;
     localStorage.setItem('accessToken', access_token);
-    localStorage.setItem('tokenExpiry', new Date().getTime() + expires_in * 1000);
 
     return access_token;
   } catch (error) {
@@ -36,48 +27,24 @@ const refreshAccessToken = async () => {
   }
 };
 
-export const getRecommendedArtists = async () => {
+export const getUserArtists = async () => {
   try {
     let accessToken = localStorage.getItem('accessToken');
-    const tokenExpiry = localStorage.getItem('tokenExpiry');
-    const currentTime = new Date().getTime();
+    const refreshToken = localStorage.getItem('refreshToken');
 
-    if (!accessToken || currentTime > tokenExpiry) {
-      accessToken = await refreshAccessToken();
+    if (!accessToken) {
+      accessToken = await refreshAccessToken(refreshToken);
     }
 
-    const response = await axios.get('https://api.spotify.com/v1/browse/new-releases', {
+    const response = await axios.get('https://api.spotify.com/v1/me/following?type=artist', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
-    return response.data.albums.items.map((album) => album.artists[0]);
+    return response.data.artists.items;
   } catch (error) {
-    console.error('Error fetching recommended artists:', error);
-    throw error;
-  }
-};
-
-export const getArtistInfo = async (artistId) => {
-  try {
-    let accessToken = localStorage.getItem('accessToken');
-    const tokenExpiry = localStorage.getItem('tokenExpiry');
-    const currentTime = new Date().getTime();
-
-    if (!accessToken || currentTime > tokenExpiry) {
-      accessToken = await refreshAccessToken();
-    }
-
-    const response = await axios.get(`https://api.spotify.com/v1/artists/${artistId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error(`Error fetching artist info for ID ${artistId}:`, error);
+    console.error('Error fetching user artists:', error);
     throw error;
   }
 };

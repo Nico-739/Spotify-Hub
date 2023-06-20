@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { fetchAndProcessProfileInfo, fetchFollowingStatus } from '../components/Profile/ProfileService';
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
-import { getFollowedArtists } from '../components/Artists/ArtistsService';
+import { getUserArtists } from '../components/Artists/ArtistsService';
 
 const HubPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [followingStatus, setFollowingStatus] = useState(null);
   const [savedTracks, setSavedTracks] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState(null);
-  const [followedArtists, setFollowedArtists] = useState(null);
+  const [userArtists, setUserArtists] = useState(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -28,8 +28,8 @@ const HubPage = () => {
         const playlists = await getUserPlaylists(accessToken);
         setUserPlaylists(playlists);
 
-        const artists = await getFollowedArtists(accessToken);
-        setFollowedArtists(artists);
+        const artists = await getUserArtists(accessToken); // Fetch artists the user follows
+        setUserArtists(artists);
       } catch (error) {
         console.error('Error fetching and processing profile info:', error);
       }
@@ -37,62 +37,6 @@ const HubPage = () => {
 
     fetchProfileData();
   }, []);
-
-  const renderFollowedArtists = () => {
-    if (!followedArtists) {
-      return <div>Loading followed artists...</div>;
-    }
-
-    if (followedArtists.length === 0) {
-      return <div>No followed artists found.</div>;
-    }
-
-    return (
-      <div>
-        <h3>Artists You Follow:</h3>
-        <ul>
-          {followedArtists.map((artist) => (
-            <li key={artist.id}>
-              <p>Name: {artist.name}</p>
-              <p>Followers: {artist.followers.total}</p>
-              <p>Genres: {artist.genres.join(', ')}</p>
-              {artist.images.length > 0 && (
-                <img src={artist.images[0].url} alt="Artist" style={{ width: '200px' }} />
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-
-  const renderPlaylists = () => {
-    if (!userPlaylists) {
-      return <div>Loading playlists...</div>;
-    }
-
-    if (userPlaylists.length === 0) {
-      return <div>No playlists found.</div>;
-    }
-
-    return (
-      <div>
-        <h3>Your Playlists:</h3>
-        <ul>
-          {userPlaylists.map((playlist) => (
-            <li key={playlist.id}>
-              <p>Name: {playlist.name}</p>
-              <p>Owner: {playlist.owner.display_name}</p>
-              <p>Total Tracks: {playlist.tracks.total}</p>
-              {playlist.images.length > 0 && (
-                <img src={playlist.images[0].url} alt="Playlist Cover" style={{ width: '200px' }} />
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
 
   return (
     <div>
@@ -137,9 +81,43 @@ const HubPage = () => {
         <div>Loading saved tracks...</div>
       )}
 
-      {renderFollowedArtists()}
+      {userPlaylists ? (
+        <div>
+          <h3>Your Playlists:</h3>
+          <ul>
+            {userPlaylists.map((playlist) => (
+              <li key={playlist.id}>
+                <p>Name: {playlist.name}</p>
+                <p>Owner: {playlist.owner.display_name}</p>
+                <p>Total Tracks: {playlist.tracks.total}</p>
+                {playlist.images.length > 0 && (
+                  <img src={playlist.images[0].url} alt="Playlist Cover" style={{ width: '200px' }} />
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>Loading playlists...</div>
+      )}
 
-      {renderPlaylists()}
+      {userArtists ? (
+        <div>
+          <h3>Artists You Follow:</h3>
+          <ul>
+            {userArtists.map((artist) => (
+              <li key={artist.id}>
+                <p>Name: {artist.name}</p>
+                <p>Genre: {artist.genres.join(', ')}</p>
+                <p>Followers: {artist.followers.total}</p>
+                <img src={artist.images[0].url} alt="Artist" style={{ width: '200px' }} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>Loading artists you follow...</div>
+      )}
     </div>
   );
 };

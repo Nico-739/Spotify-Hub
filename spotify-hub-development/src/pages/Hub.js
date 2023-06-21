@@ -3,6 +3,7 @@ import { fetchAndProcessProfileInfo, fetchFollowingStatus } from '../components/
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
 import { getUserArtists } from '../components/Artists/ArtistsService';
+import { getFollowedArtistsAlbums } from '../components/Albums/AlbumsService';
 
 const HubPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
@@ -10,6 +11,7 @@ const HubPage = () => {
   const [savedTracks, setSavedTracks] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState(null);
   const [userArtists, setUserArtists] = useState(null);
+  const [followedArtistsAlbums, setFollowedArtistsAlbums] = useState(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -28,8 +30,11 @@ const HubPage = () => {
         const playlists = await getUserPlaylists(accessToken);
         setUserPlaylists(playlists);
 
-        const artists = await getUserArtists(accessToken); // Fetch artists the user follows
+        const artists = await getUserArtists(accessToken);
         setUserArtists(artists);
+
+        const albums = await getFollowedArtistsAlbums(accessToken); // Fetch albums of followed artists
+        setFollowedArtistsAlbums(albums);
       } catch (error) {
         console.error('Error fetching and processing profile info:', error);
       }
@@ -41,6 +46,7 @@ const HubPage = () => {
   return (
     <div>
       <h1>Hub Page Test</h1>
+
       {profileInfo ? (
         <div>
           <h2>Welcome, {profileInfo.display_name}</h2>
@@ -117,6 +123,25 @@ const HubPage = () => {
         </div>
       ) : (
         <div>Loading artists you follow...</div>
+      )}
+
+      {followedArtistsAlbums ? (
+        <div>
+          <h3>Albums of Artists You Follow:</h3>
+          <ul>
+            {followedArtistsAlbums.map((album) => (
+              <li key={album.id}>
+                <p>Name: {album.name}</p>
+                <p>Artists: {album.artists.map((artist) => artist.name).join(', ')}</p>
+                <p>Release Date: {album.release_date}</p>
+                <p>Popularity: {album.popularity}</p>
+                <img src={album.images[0].url} alt="Album" style={{ width: '200px' }} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>Loading albums of artists you follow...</div>
       )}
     </div>
   );

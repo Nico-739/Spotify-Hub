@@ -7,7 +7,7 @@
 section {
   position: relative;
   min-height: 100vh;
-  background: rgb(91, 91, 91);
+  background: rgba(91, 91, 91, 0.391);
 }
 
 .blob {

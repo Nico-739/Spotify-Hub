@@ -3,7 +3,7 @@ import { fetchAndProcessProfileInfo, fetchFollowingStatus } from '../components/
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
 import { getUserTopArtists } from '../components/Artists/ArtistsService';
-import { getFollowedArtistsAlbums } from '../components/Albums/AlbumsService';
+import { getUserTopTracks } from '../components/Albums/AlbumsService';
 import { getUserTopGenres } from '../components/Generes/GeneresService';
 
 const HubPage = () => {
@@ -35,8 +35,8 @@ const HubPage = () => {
         const artists = await getUserTopArtists(accessToken);
         setTopArtists(artists);
 
-        const albums = await getFollowedArtistsAlbums(accessToken);
-        setFollowedArtistsAlbums(albums);
+        const followedArtistsTracks = await getUserTopTracks(accessToken);
+        setFollowedArtistsAlbums(followedArtistsTracks);
 
         const topGenres = await getUserTopGenres(accessToken);
         setUserTopGenres(topGenres);
@@ -59,7 +59,7 @@ const HubPage = () => {
           <p>Country: {profileInfo.country}</p>
           <p>Followers: {profileInfo.followers.total}</p>
           <p>Following Artists: {followingStatus ? 'Yes' : 'No'}</p>
-          {profileInfo.images.length > 0 && (
+          {profileInfo.images && profileInfo.images.length > 0 && (
             <p>
               Profile Image: <img src={profileInfo.images[0].url} alt="Profile" />
             </p>
@@ -76,7 +76,9 @@ const HubPage = () => {
             {savedTracks.items.map((item) => (
               <li key={item.track.id}>
                 <div>
-                  <img src={item.track.album.images[0].url} alt="Album" style={{ width: '200px' }} />
+                  {item.track.album.images && item.track.album.images.length > 0 && (
+                    <img src={item.track.album.images[0].url} alt="Album" style={{ width: '200px' }} />
+                  )}
                 </div>
                 <div>
                   <p>{item.track.name}</p>
@@ -101,7 +103,7 @@ const HubPage = () => {
                 <p>Name: {playlist.name}</p>
                 <p>Owner: {playlist.owner.display_name}</p>
                 <p>Total Tracks: {playlist.tracks.total}</p>
-                {playlist.images.length > 0 && (
+                {playlist.images && playlist.images.length > 0 && (
                   <img src={playlist.images[0].url} alt="Playlist Cover" style={{ width: '200px' }} />
                 )}
               </li>
@@ -121,7 +123,9 @@ const HubPage = () => {
                 <p>Name: {artist.name}</p>
                 <p>Genre: {artist.genres.join(', ')}</p>
                 <p>Followers: {artist.followers.total}</p>
-                <img src={artist.images[0].url} alt="Artist" style={{ width: '200px' }} />
+                {artist.images && artist.images.length > 0 && (
+                  <img src={artist.images[0].url} alt="Artist" style={{ width: '200px' }} />
+                )}
               </li>
             ))}
           </ul>
@@ -140,7 +144,9 @@ const HubPage = () => {
                 <p>Artists: {album.artists.map((artist) => artist.name).join(', ')}</p>
                 <p>Release Date: {album.release_date}</p>
                 <p>Popularity: {album.popularity}</p>
-                <img src={album.images[0].url} alt="Album" style={{ width: '200px' }} />
+                {album.images && album.images.length > 0 && (
+                  <img src={album.images[0].url} alt="Album" style={{ width: '200px' }} />
+                )}
               </li>
             ))}
           </ul>

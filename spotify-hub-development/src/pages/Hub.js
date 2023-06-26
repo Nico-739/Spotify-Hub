@@ -6,6 +6,8 @@ import { getUserTopArtists } from '../components/Artists/ArtistsService';
 import { getUserTopTracks } from '../components/Tracks/TopTracksService';
 import { getUserTopGenres } from '../components/Generes/GeneresService';
 
+import '../components/Styles/Hub.css';
+
 const HubPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [savedTracks, setSavedTracks] = useState(null);
@@ -46,7 +48,7 @@ const HubPage = () => {
 
   const ProfileSection = () => {
     return (
-      <div>
+      <div className="ProfileSection">
         <h2>Welcome, {profileInfo.display_name}</h2>
         <p>Email: {profileInfo.email}</p>
         <p>Country: {profileInfo.country}</p>
@@ -62,14 +64,14 @@ const HubPage = () => {
 
   const SavedTracksSection = () => {
     return (
-      <div>
+      <div className="SavedTracksSection">
         <h3>Your Saved Tracks:</h3>
         <ul>
           {savedTracks.items.map((item) => (
             <li key={item.track.id}>
               <div>
                 {item.track.album.images && item.track.album.images.length > 0 && (
-                  <img src={item.track.album.images[0].url} alt="Album" style={{ width: '200px' }} />
+                  <img src={item.track.album.images[0].url} alt="Album" />
                 )}
               </div>
               <div>
@@ -87,7 +89,7 @@ const HubPage = () => {
 
   const UserPlaylistsSection = () => {
     return (
-      <div>
+      <div className="UserPlaylistsSection">
         <h3>Your Playlists:</h3>
         <ul>
           {userPlaylists.map((playlist) => (
@@ -96,7 +98,7 @@ const HubPage = () => {
               <p>Owner: {playlist.owner.display_name}</p>
               <p>Total Tracks: {playlist.tracks.total}</p>
               {playlist.images && playlist.images.length > 0 && (
-                <img src={playlist.images[0].url} alt="Playlist Cover" style={{ width: '200px' }} />
+                <img src={playlist.images[0].url} alt="Playlist Cover" />
               )}
             </li>
           ))}
@@ -107,7 +109,7 @@ const HubPage = () => {
 
   const TopArtistsSection = () => {
     return (
-      <div>
+      <div className="TopArtistsSection">
         <h3>Your Top Artists:</h3>
         <ul>
           {topArtists.map((artist) => (
@@ -115,7 +117,7 @@ const HubPage = () => {
               <p>Name: {artist.name}</p>
               <p>Genre: {artist.genres.join(', ')}</p>
               {artist.images && artist.images.length > 0 && (
-                <img src={artist.images[0].url} alt="Artist" style={{ width: '200px' }} />
+                <img src={artist.images[0].url} alt="Artist" />
               )}
             </li>
           ))}
@@ -126,7 +128,7 @@ const HubPage = () => {
 
   const UserTopTracksSection = () => {
     return (
-      <div>
+      <div className="UserTopTracksSection">
         <h3>Your Top Tracks:</h3>
         <ul>
           {followedArtistsTracks.map((track) => (
@@ -136,7 +138,7 @@ const HubPage = () => {
               <p>Release Date: {track.album.release_date}</p>
               <p>Popularity: {track.popularity}</p>
               {track.album.images && track.album.images.length > 0 && (
-                <img src={track.album.images[0].url} alt="Album" style={{ width: '200px' }} />
+                <img src={track.album.images[0].url} alt="Album" />
               )}
             </li>
           ))}
@@ -147,7 +149,7 @@ const HubPage = () => {
 
   const UserTopGenresSection = () => {
     return (
-      <div>
+      <div className="UserTopGenresSection">
         <h3>Your Top Genres:</h3>
         <ul>
           {userTopGenres.map((genre) => (
@@ -160,7 +162,6 @@ const HubPage = () => {
 
   return (
     <div>
-      <h1>Hub Page Test</h1>
 
       {profileInfo ? <ProfileSection /> : <div>Loading profile information...</div>}
 

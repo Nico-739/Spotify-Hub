@@ -170,11 +170,7 @@ const HubPage = () => {
 
       {topArtists ? <TopArtistsSection /> : <div>Loading your top artists...</div>}
 
-      {followedArtistsTracks ? (
-        <UserTopTracksSection />
-      ) : (
-        <div>Loading your top tracks...</div>
-      )}
+      {followedArtistsTracks ? <UserTopTracksSection /> : <div>Loading your top tracks...</div>}
 
       {userTopGenres ? <UserTopGenresSection /> : <div>Loading top genres...</div>}
     </div>

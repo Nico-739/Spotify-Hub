@@ -12,7 +12,7 @@ const HubPage = () => {
   const [savedTracks, setSavedTracks] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
-  const [followedArtistsAlbums, setFollowedArtistsAlbums] = useState(null);
+  const [followedArtistsTracks, setFollowedArtistsTracks] = useState(null);
   const [userTopGenres, setUserTopGenres] = useState(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const HubPage = () => {
         setTopArtists(artists);
 
         const followedArtistsTracks = await getUserTopTracks(accessToken);
-        setFollowedArtistsAlbums(followedArtistsTracks);
+        setFollowedArtistsTracks(followedArtistsTracks);
 
         const topGenres = await getUserTopGenres(accessToken);
         setUserTopGenres(topGenres);
@@ -48,125 +48,140 @@ const HubPage = () => {
     fetchProfileData();
   }, []);
 
+  const ProfileSection = () => {
+    return (
+      <div>
+        <h2>Welcome, {profileInfo.display_name}</h2>
+        <p>Email: {profileInfo.email}</p>
+        <p>Country: {profileInfo.country}</p>
+        <p>Followers: {profileInfo.followers.total}</p>
+        <p>Following Artists: {followingStatus ? 'Yes' : 'No'}</p>
+        {profileInfo.images && profileInfo.images.length > 0 && (
+          <p>
+            Profile Image: <img src={profileInfo.images[0].url} alt="Profile" />
+          </p>
+        )}
+      </div>
+    );
+  };
+
+  const SavedTracksSection = () => {
+    return (
+      <div>
+        <h3>Your Saved Tracks:</h3>
+        <ul>
+          {savedTracks.items.map((item) => (
+            <li key={item.track.id}>
+              <div>
+                {item.track.album.images && item.track.album.images.length > 0 && (
+                  <img src={item.track.album.images[0].url} alt="Album" style={{ width: '200px' }} />
+                )}
+              </div>
+              <div>
+                <p>{item.track.name}</p>
+                <p>
+                  {item.track.artists.map((artist) => artist.name).join(', ')} - {item.track.album.name}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const UserPlaylistsSection = () => {
+    return (
+      <div>
+        <h3>Your Playlists:</h3>
+        <ul>
+          {userPlaylists.map((playlist) => (
+            <li key={playlist.id}>
+              <p>Name: {playlist.name}</p>
+              <p>Owner: {playlist.owner.display_name}</p>
+              <p>Total Tracks: {playlist.tracks.total}</p>
+              {playlist.images && playlist.images.length > 0 && (
+                <img src={playlist.images[0].url} alt="Playlist Cover" style={{ width: '200px' }} />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const TopArtistsSection = () => {
+    return (
+      <div>
+        <h3>Your Top Artists:</h3>
+        <ul>
+          {topArtists.map((artist) => (
+            <li key={artist.id}>
+              <p>Name: {artist.name}</p>
+              <p>Genre: {artist.genres.join(', ')}</p>
+              {artist.images && artist.images.length > 0 && (
+                <img src={artist.images[0].url} alt="Artist" style={{ width: '200px' }} />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const UserTopTracksSection = () => {
+    return (
+      <div>
+        <h3>Your Top Tracks:</h3>
+        <ul>
+          {followedArtistsTracks.map((track) => (
+            <li key={track.id}>
+              <p>Name: {track.name}</p>
+              <p>Artists: {track.artists.map((artist) => artist.name).join(', ')}</p>
+              <p>Release Date: {track.album.release_date}</p>
+              <p>Popularity: {track.popularity}</p>
+              {track.album.images && track.album.images.length > 0 && (
+                <img src={track.album.images[0].url} alt="Album" style={{ width: '200px' }} />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const UserTopGenresSection = () => {
+    return (
+      <div>
+        <h3>Your Top Genres:</h3>
+        <ul>
+          {userTopGenres.map((genre) => (
+            <li key={genre}>{genre}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
   return (
     <div>
       <h1>Hub Page Test</h1>
 
-      {profileInfo ? (
-        <div>
-          <h2>Welcome, {profileInfo.display_name}</h2>
-          <p>Email: {profileInfo.email}</p>
-          <p>Country: {profileInfo.country}</p>
-          <p>Followers: {profileInfo.followers.total}</p>
-          <p>Following Artists: {followingStatus ? 'Yes' : 'No'}</p>
-          {profileInfo.images && profileInfo.images.length > 0 && (
-            <p>
-              Profile Image: <img src={profileInfo.images[0].url} alt="Profile" />
-            </p>
-          )}
-        </div>
+      {profileInfo ? <ProfileSection /> : <div>Loading profile information...</div>}
+
+      {savedTracks ? <SavedTracksSection /> : <div>Loading saved tracks...</div>}
+
+      {userPlaylists ? <UserPlaylistsSection /> : <div>Loading playlists...</div>}
+
+      {topArtists ? <TopArtistsSection /> : <div>Loading your top artists...</div>}
+
+      {followedArtistsTracks ? (
+        <UserTopTracksSection />
       ) : (
-        <div>Loading profile information...</div>
+        <div>Loading your top tracks...</div>
       )}
 
-      {savedTracks ? (
-        <div>
-          <h3>Your Saved Tracks:</h3>
-          <ul>
-            {savedTracks.items.map((item) => (
-              <li key={item.track.id}>
-                <div>
-                  {item.track.album.images && item.track.album.images.length > 0 && (
-                    <img src={item.track.album.images[0].url} alt="Album" style={{ width: '200px' }} />
-                  )}
-                </div>
-                <div>
-                  <p>{item.track.name}</p>
-                  <p>
-                    {item.track.artists.map((artist) => artist.name).join(', ')} - {item.track.album.name}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>Loading saved tracks...</div>
-      )}
-
-      {userPlaylists ? (
-        <div>
-          <h3>Your Playlists:</h3>
-          <ul>
-            {userPlaylists.map((playlist) => (
-              <li key={playlist.id}>
-                <p>Name: {playlist.name}</p>
-                <p>Owner: {playlist.owner.display_name}</p>
-                <p>Total Tracks: {playlist.tracks.total}</p>
-                {playlist.images && playlist.images.length > 0 && (
-                  <img src={playlist.images[0].url} alt="Playlist Cover" style={{ width: '200px' }} />
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>Loading playlists...</div>
-      )}
-
-      {topArtists ? (
-        <div>
-          <h3>Your Top Artists:</h3>
-          <ul>
-            {topArtists.map((artist) => (
-              <li key={artist.id}>
-                <p>Name: {artist.name}</p>
-                <p>Genre: {artist.genres.join(', ')}</p>
-                <p>Followers: {artist.followers.total}</p>
-                {artist.images && artist.images.length > 0 && (
-                  <img src={artist.images[0].url} alt="Artist" style={{ width: '200px' }} />
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>Loading your top artists...</div>
-      )}
-
-      {followedArtistsAlbums ? (
-        <div>
-          <h3>Albums of Artists You Follow:</h3>
-          <ul>
-            {followedArtistsAlbums.map((album) => (
-              <li key={album.id}>
-                <p>Name: {album.name}</p>
-                <p>Artists: {album.artists.map((artist) => artist.name).join(', ')}</p>
-                <p>Release Date: {album.release_date}</p>
-                <p>Popularity: {album.popularity}</p>
-                {album.images && album.images.length > 0 && (
-                  <img src={album.images[0].url} alt="Album" style={{ width: '200px' }} />
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>Loading albums of artists you follow...</div>
-      )}
-
-      {userTopGenres ? (
-        <div>
-          <h3>Your Top Genres:</h3>
-          <ul>
-            {userTopGenres.map((genre) => (
-              <li key={genre}>{genre}</li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>Loading top genres...</div>
-      )}
+      {userTopGenres ? <UserTopGenresSection /> : <div>Loading top genres...</div>}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { fetchAndProcessProfileInfo, fetchFollowingStatus } from '../components/
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
 import { getUserTopArtists } from '../components/Artists/ArtistsService';
-import { getUserTopTracks } from '../components/Albums/AlbumsService';
+import { getUserTopTracks } from '../components/Tracks/TopTracksService';
 import { getUserTopGenres } from '../components/Generes/GeneresService';
 
 const HubPage = () => {

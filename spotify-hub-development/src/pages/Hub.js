@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchAndProcessProfileInfo, fetchFollowingStatus } from '../components/Profile/ProfileService';
+import { fetchAndProcessProfileInfo } from '../components/Profile/ProfileService';
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
 import { getUserTopArtists } from '../components/Artists/ArtistsService';
@@ -8,7 +8,6 @@ import { getUserTopGenres } from '../components/Generes/GeneresService';
 
 const HubPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
-  const [followingStatus, setFollowingStatus] = useState(null);
   const [savedTracks, setSavedTracks] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
@@ -22,9 +21,6 @@ const HubPage = () => {
 
         const processedData = await fetchAndProcessProfileInfo(accessToken);
         setProfileInfo(processedData);
-
-        const status = await fetchFollowingStatus(accessToken, 'artist', ['74ASZWbe4lXaubB36ztrGX', '08td7MxkoHQkXnWAYD8d6Q']);
-        setFollowingStatus(status);
 
         const tracks = await getSavedTracks(accessToken, 'US');
         setSavedTracks(tracks);
@@ -55,7 +51,6 @@ const HubPage = () => {
         <p>Email: {profileInfo.email}</p>
         <p>Country: {profileInfo.country}</p>
         <p>Followers: {profileInfo.followers.total}</p>
-        <p>Following Artists: {followingStatus ? 'Yes' : 'No'}</p>
         {profileInfo.images && profileInfo.images.length > 0 && (
           <p>
             Profile Image: <img src={profileInfo.images[0].url} alt="Profile" />

@@ -89,21 +89,6 @@ const processProfileInfo = (profileData) => {
   };
 };
 
-const checkFollowingStatus = async (accessToken, type, ids) => {
-  try {
-    const response = await axios.get(`https://api.spotify.com/v1/me/following/contains?type=${type}&ids=${ids.join(',')}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error('Error checking following status:', error);
-    throw error;
-  }
-};
-
 export const fetchAndProcessProfileInfo = async (accessToken) => {
   try {
     const profileData = await getProfileInfo(accessToken);
@@ -111,16 +96,6 @@ export const fetchAndProcessProfileInfo = async (accessToken) => {
     return processedData;
   } catch (error) {
     console.error('Error fetching and processing profile info:', error);
-    throw error;
-  }
-};
-
-export const fetchFollowingStatus = async (accessToken, type, ids) => {
-  try {
-    const followingStatus = await checkFollowingStatus(accessToken, type, ids);
-    return followingStatus;
-  } catch (error) {
-    console.error('Error fetching following status:', error);
     throw error;
   }
 };

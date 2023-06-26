@@ -28,7 +28,7 @@ const refreshAccessToken = async () => {
   }
 };
 
-export const getFollowedArtistsAlbums = async () => {
+export const getUserTopTracks = async () => {
   try {
     let accessToken = localStorage.getItem('accessToken');
 
@@ -36,63 +36,22 @@ export const getFollowedArtistsAlbums = async () => {
       accessToken = await refreshAccessToken();
     }
 
-    const response = await axios.get('https://api.spotify.com/v1/me/following?type=artist&limit=50', {
+    const response = await axios.get('https://api.spotify.com/v1/me/top/tracks', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      params: {
+        time_range: 'medium_term',
+        limit: 50,
+        offset: 0,
+      },
     });
 
-    const artistIds = response.data.artists.items.map((artist) => artist.id);
+    const tracks = response.data.items;
 
-    const albumResponses = await Promise.all(
-      artistIds.map((artistId) =>
-        axios.get(`https://api.spotify.com/v1/artists/${artistId}/albums`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          params: {
-            include_groups: 'album',
-            limit: 10, // Adjust the limit to fetch more albums if needed
-          },
-        })
-      )
-    );
-
-    const albums = albumResponses.flatMap((albumResponse) => albumResponse.data.items);
-
-    // Fetch additional details for each album
-    const detailedAlbums = await Promise.all(
-      albums.map(async (album) => {
-        const albumResponse = await axios.get(`https://api.spotify.com/v1/albums/${album.id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        return albumResponse.data;
-      })
-    );
-
-    // Sort albums by popularity in descending order
-    const sortedAlbums = detailedAlbums.sort((a, b) => b.popularity - a.popularity);
-
-    // Group albums by artist
-    const albumsByArtist = {};
-    sortedAlbums.forEach((album) => {
-      const artistId = album.artists[0].id;
-      if (!albumsByArtist[artistId]) {
-        albumsByArtist[artistId] = [];
-      }
-      albumsByArtist[artistId].push(album);
-    });
-
-    // Filter and keep only the three most popular albums of each artist
-    const filteredAlbums = Object.values(albumsByArtist).flatMap((artistAlbums) =>
-      artistAlbums.slice(0, 3)
-    );
-
-    return filteredAlbums;
+    return tracks;
   } catch (error) {
-    console.error('Error fetching followed artists albums:', error);
+    console.error('Error fetching user top tracks:', error);
     throw error;
   }
 };

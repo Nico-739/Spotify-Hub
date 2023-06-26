@@ -11,6 +11,7 @@ const refreshAccessToken = async (refreshToken) => {
   params.append('client_secret', clientSecret);
 
   try {
+    console.log('Refreshing access token...');
     const response = await axios.post('https://accounts.spotify.com/api/token', params, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -20,6 +21,7 @@ const refreshAccessToken = async (refreshToken) => {
     const { access_token } = response.data;
     localStorage.setItem('accessToken', access_token);
 
+    console.log('Access token refreshed:', access_token);
     return access_token;
   } catch (error) {
     console.error('Error refreshing access token:', error);
@@ -27,24 +29,33 @@ const refreshAccessToken = async (refreshToken) => {
   }
 };
 
-export const getUserArtists = async () => {
+export const getUserTopArtists = async () => {
   try {
     let accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
 
     if (!accessToken) {
+      console.log('Access token not found. Refreshing access token...');
       accessToken = await refreshAccessToken(refreshToken);
+      console.log('New access token:', accessToken);
     }
 
-    const response = await axios.get('https://api.spotify.com/v1/me/following?type=artist', {
+    console.log('Fetching user top artists...');
+    const response = await axios.get('https://api.spotify.com/v1/me/top/artists', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      params: {
+        time_range: 'medium_term',
+        limit: 20,
+        offset: 0,
+      },
     });
 
-    return response.data.artists.items;
+    console.log('User top artists fetched:', response.data.items);
+    return response.data.items;
   } catch (error) {
-    console.error('Error fetching user artists:', error);
+    console.error('Error fetching user top artists:', error);
     throw error;
   }
 };

@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { fetchAndProcessProfileInfo, fetchFollowingStatus } from '../components/Profile/ProfileService';
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
-import { getUserArtists } from '../components/Artists/ArtistsService';
+import { getUserTopArtists } from '../components/Artists/ArtistsService';
 import { getFollowedArtistsAlbums } from '../components/Albums/AlbumsService';
+import { getUserTopGenres } from '../components/Generes/GeneresService';
 
 const HubPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [followingStatus, setFollowingStatus] = useState(null);
   const [savedTracks, setSavedTracks] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState(null);
-  const [userArtists, setUserArtists] = useState(null);
+  const [topArtists, setTopArtists] = useState(null);
   const [followedArtistsAlbums, setFollowedArtistsAlbums] = useState(null);
+  const [userTopGenres, setUserTopGenres] = useState(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -30,11 +32,14 @@ const HubPage = () => {
         const playlists = await getUserPlaylists(accessToken);
         setUserPlaylists(playlists);
 
-        const artists = await getUserArtists(accessToken);
-        setUserArtists(artists);
+        const artists = await getUserTopArtists(accessToken);
+        setTopArtists(artists);
 
-        const albums = await getFollowedArtistsAlbums(accessToken); // Fetch albums of followed artists
+        const albums = await getFollowedArtistsAlbums(accessToken);
         setFollowedArtistsAlbums(albums);
+
+        const topGenres = await getUserTopGenres(accessToken);
+        setUserTopGenres(topGenres);
       } catch (error) {
         console.error('Error fetching and processing profile info:', error);
       }
@@ -107,11 +112,11 @@ const HubPage = () => {
         <div>Loading playlists...</div>
       )}
 
-      {userArtists ? (
+      {topArtists ? (
         <div>
-          <h3>Artists You Follow:</h3>
+          <h3>Your Top Artists:</h3>
           <ul>
-            {userArtists.map((artist) => (
+            {topArtists.map((artist) => (
               <li key={artist.id}>
                 <p>Name: {artist.name}</p>
                 <p>Genre: {artist.genres.join(', ')}</p>
@@ -122,7 +127,7 @@ const HubPage = () => {
           </ul>
         </div>
       ) : (
-        <div>Loading artists you follow...</div>
+        <div>Loading your top artists...</div>
       )}
 
       {followedArtistsAlbums ? (
@@ -142,6 +147,19 @@ const HubPage = () => {
         </div>
       ) : (
         <div>Loading albums of artists you follow...</div>
+      )}
+
+      {userTopGenres ? (
+        <div>
+          <h3>Your Top Genres:</h3>
+          <ul>
+            {userTopGenres.map((genre) => (
+              <li key={genre}>{genre}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>Loading top genres...</div>
       )}
     </div>
   );

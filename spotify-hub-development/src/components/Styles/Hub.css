@@ -1,203 +1,203 @@
-.CardContainer {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }  
-
-/* ProfileSection */
 .ProfileSection {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 400px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .ProfileSection h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .profile-section p {
-    margin-bottom: 5px;
-  }
-  
-  .ProfileSection img {
-    max-width: 20px;
-  }
-  
-  /* SavedTracksSection */
-  .SavedTracksSection {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 400px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .SavedTracksSection h3 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .SavedTracksSection ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .SavedTracksSection li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .SavedTracksSection li img {
-    max-width: 40px;
-    margin-right: 10px;
-  }
-  
-  .SavedTracksSection li p {
-    margin: 0;
-  }
-  
-  .SavedTracksSection li div {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* UserPlaylistsSection */
-  .UserPlaylistsSection {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 400px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .UserPlaylistsSection h3 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .UserPlaylistsSection ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .UserPlaylistsSection li {
-    margin-bottom: 10px;
-  }
-  
-  .UserPlaylistsSection li p {
-    margin: 0;
-  }
-  
-  .UserPlaylistsSection li img {
-    max-width: 40px;
-    margin-right: 10px;
-  }
-  
-  /* TopArtistsSection */
-  .TopArtistsSection {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 400px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .TopArtistsSection h3 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .TopArtistsSection ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .TopArtistsSection li {
-    margin-bottom: 10px;
-  }
-  
-  .TopArtistsSection li p {
-    margin: 0;
-  }
-  
-  .TopArtistsSection li img {
-    max-width: 40px;
-    margin-right: 10px;
-  }
-  
-  /* UserTopTracksSection */
-  .UserTopTracksSection {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 400px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .UserTopTracksSection h3 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .UserTopTracksSection ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .UserTopTracksSection li {
-    margin-bottom: 10px;
-  }
-  
-  .UserTopTracksSection li p {
-    margin: 0;
-  }
-  
-  .UserTopTracksSection li img {
-    max-width: 40px;
-    margin-right: 10px;
-  }
-  
-  /* UserTopGenresSection */
-  .UserTopGenresSection {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 400px;
-    margin-bottom: 10px;
-  }
-  
-  .UserTopGenresSection h3 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .UserTopGenresSection ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .UserTopGenresSection li {
-    margin-bottom: 10px;
-  }
-  
-  .UserTopGenresSection li {
-    margin: 0;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 300px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.ProfileSection h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.ProfileSection p {
+  margin-bottom: 5px;
+}
+
+.ProfileSection img {
+  width: 50px;
+  height: 50px;
+}
+
+.SavedTracksSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 300px;
+  height: 600px;
+  position: absolute;
+  top: 35%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.SavedTracksSection h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.SavedTracksSection p {
+  margin-bottom: 5px;
+}
+
+.SavedTracksSection img {
+  width: 50px;
+  height: 50px;
+}
+
+.UserPlaylistsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 300px;
+  height: 600px;
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.UserPlaylistsSection h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.UserPlaylistsSection p {
+  margin-bottom: 5px;
+}
+
+.UserPlaylistsSection img {
+  width: 50px;
+  height: 50px;
+}
+
+.TopArtistsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 400px;
+  height: 200px;
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.TopArtistsSection h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.TopArtistsSection p {
+  margin-bottom: 5px;
+}
+
+.TopArtistsSection img {
+  width: 50px;
+  height: 50px;
+}
+
+.UserTopTracksSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 370px;
+  height: 600px;
+  position: absolute;
+  top: 40%;
+  left: 11%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.UserTopTracksSection h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.UserTopTracksSection p {
+  margin-bottom: 5px;
+}
+
+.UserTopTracksSection img {
+  width: 50px;
+  height: 50px;
+}
+
+.UserTopGenresSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 370px;
+  height: 600px;
+  position: absolute;
+  top: 40%;
+  left: 89%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.UserTopGenresSection h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.UserTopGenresSection p {
+  margin-bottom: 5px;
+}
+
+.UserTopGenresSection img {
+  width: 50px;
+  height: 50px;
+}

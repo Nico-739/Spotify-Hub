@@ -48,25 +48,25 @@ const HubPage = () => {
 
   const ProfileSection = () => {
     return (
-      <div className="CardContainer">
-        <div className="ProfileSection">
-          <h2>Welcome, {profileInfo.display_name}</h2>
+      <div className="ProfileSection">
+        <div className="profile-info">
+          <h3>Welcome, {profileInfo.display_name}</h3>
           <p>Email: {profileInfo.email}</p>
           <p>Country: {profileInfo.country}</p>
           <p>Followers: {profileInfo.followers.total}</p>
-          {profileInfo.images && profileInfo.images.length > 0 && (
-            <p>
-              Profile Image: <img src={profileInfo.images[0].url} alt="Profile" />
-            </p>
-          )}
         </div>
+        {profileInfo.images && profileInfo.images.length > 0 && (
+          <div className="profile-image">
+            <p>Profile Image:</p>
+            <img src={profileInfo.images[0].url} alt="Profile" />
+          </div>
+        )}
       </div>
     );
-  };
+  };  
 
   const SavedTracksSection = () => {
     return (
-      <div className="CardContainer">
         <div className="SavedTracksSection">
           <h3>Your Saved Tracks:</h3>
           <ul>
@@ -87,13 +87,11 @@ const HubPage = () => {
             ))}
           </ul>
         </div>
-      </div>
     );
   };
 
   const UserPlaylistsSection = () => {
     return (
-      <div className="CardContainer">
         <div className="UserPlaylistsSection">
           <h3>Your Playlists:</h3>
           <ul>
@@ -109,13 +107,11 @@ const HubPage = () => {
             ))}
           </ul>
         </div>
-      </div>
     );
   };
 
   const TopArtistsSection = () => {
     return (
-      <div className="CardContainer">
         <div className="TopArtistsSection">
           <h3>Your Top Artists:</h3>
           <ul>
@@ -130,13 +126,11 @@ const HubPage = () => {
             ))}
           </ul>
         </div>
-      </div>
     );
   };
 
   const UserTopTracksSection = () => {
     return (
-      <div className="CardContainer">
         <div className="UserTopTracksSection">
           <h3>Your Top Tracks:</h3>
           <ul>
@@ -153,13 +147,11 @@ const HubPage = () => {
             ))}
           </ul>
         </div>
-      </div>
     );
   };
 
   const UserTopGenresSection = () => {
     return (
-      <div className="CardContainer">
         <div className="UserTopGenresSection">
           <h3>Your Top Genres:</h3>
           <ul>
@@ -168,7 +160,6 @@ const HubPage = () => {
             ))}
           </ul>
         </div>
-      </div>
     );
   };
 

@@ -24,10 +24,12 @@
   padding: 20px;
   text-align: center;
   font-family: sans-serif;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   animation: shrinkSection 0.5s linear forwards;
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .ProfileSection h2 {
@@ -61,7 +63,6 @@
 
 .SavedTracksSection {
   align-items: center;
-  gap: 10px;
   width: 300px;
   height: 600px;
   position: absolute;
@@ -70,10 +71,17 @@
   transform: translate(-50%, -50%);
   overflow: auto;
   font-family: sans-serif;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   animation: shrinkSection 0.5s linear forwards;
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.SavedTracksSection h3 {
+  padding: 1%;
+  text-align: center;
 }
 
 .SavedTracksSection li {
@@ -112,7 +120,7 @@
 
 .SavedTracksSection::-webkit-scrollbar-thumb {
   background: #b3b3b3b4;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 .SavedTracksSection::-webkit-scrollbar-thumb:hover {
@@ -136,10 +144,12 @@
   padding: 20px;
   text-align: center;
   font-family: sans-serif;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   animation: shrinkSection 0.5s linear forwards;
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .UserPlaylistsSection h2 {
@@ -187,10 +197,12 @@
   padding: 20px;
   text-align: center;
   font-family: sans-serif;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   animation: shrinkSection 0.5s linear forwards;
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .TopArtistsSection h2 {
@@ -237,10 +249,12 @@
   padding: 20px;
   text-align: center;
   font-family: sans-serif;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   animation: shrinkSection 0.5s linear forwards;
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .UserTopTracksSection h2 {
@@ -288,10 +302,12 @@
   padding: 20px;
   text-align: center;
   font-family: sans-serif;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   animation: shrinkSection 0.5s linear forwards;
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .UserTopGenresSection h2 {

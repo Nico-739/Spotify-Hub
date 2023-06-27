@@ -1,3 +1,21 @@
+@keyframes shrinkElement {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+@keyframes buttonHover {
+  from {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -20,6 +38,7 @@ section {
   width: 700px;
   height: 700px;
   filter: blur(50px);
+  animation: shrinkElement 0.5s linear forwards;
 }
 
 .blob1 {
@@ -31,6 +50,7 @@ section {
   width: 700px;
   height: 700px;
   opacity: 0.5;
+  animation: shrinkElement 0.5s linear forwards;
 }
 
 h1 {
@@ -47,12 +67,14 @@ h1 {
   margin: 0;
   padding: 0;
   letter-spacing: 3px;
+  white-space: nowrap;
+  animation: shrinkElement 0.5s linear forwards;
 }
 
 h2 {
   z-index: 1;
-  font-size: 115px;
-  color: rgba(209, 209, 209, 0.464);
+  font-size: 111px;
+  color: rgba(255, 255, 255, 0.65);
   font-family: sans-serif;
   text-align: center;
   position: absolute;
@@ -64,6 +86,8 @@ h2 {
   padding: 0;
   letter-spacing: 3px;
   filter: blur(50px);
+  white-space: nowrap;
+  animation: shrinkElement 0.5s linear forwards;
 }
 
 button {
@@ -88,8 +112,10 @@ button {
   width: 300px;
   height: 60px;
   transition: transform 0.3s;
+  white-space: nowrap;
+  animation: shrinkElement 0.5s linear forwards;
 }
 
 button:hover {
-  transform: translate(-50%, -50%) scale(1.05);
+  animation: buttonHover 0.3s linear forwards;
 }

@@ -1,3 +1,12 @@
+@keyframes shrinkSection {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
 .ProfileSection {
   display: flex;
   flex-direction: column;
@@ -16,6 +25,7 @@
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: shrinkSection 0.5s linear forwards;
 }
 
 .ProfileSection h2 {
@@ -50,6 +60,7 @@
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: shrinkSection 0.5s linear forwards;
 }
 
 .SavedTracksSection h2 {
@@ -84,6 +95,7 @@
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: shrinkSection 0.5s linear forwards;
 }
 
 .UserPlaylistsSection h2 {
@@ -118,6 +130,7 @@
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: shrinkSection 0.5s linear forwards;
 }
 
 .TopArtistsSection h2 {
@@ -152,6 +165,7 @@
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: shrinkSection 0.5s linear forwards;
 }
 
 .UserTopTracksSection h2 {
@@ -186,6 +200,7 @@
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: shrinkSection 0.5s linear forwards;
 }
 
 .UserTopGenresSection h2 {

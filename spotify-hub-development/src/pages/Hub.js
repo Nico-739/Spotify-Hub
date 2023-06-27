@@ -68,7 +68,7 @@ const HubPage = () => {
   const SavedTracksSection = () => {
     return (
         <div className="SavedTracksSection">
-          <h3>Your Saved Tracks:</h3>
+          <h3>Liked Songs:</h3>
           <ul>
             {savedTracks.items.map((item) => (
               <li key={item.track.id}>
@@ -80,7 +80,7 @@ const HubPage = () => {
                 <div>
                   <p>{item.track.name}</p>
                   <p>
-                    {item.track.artists.map((artist) => artist.name).join(', ')} - {item.track.album.name}
+                    {item.track.artists.map((artist) => artist.name).join(', ')}
                   </p>
                 </div>
               </li>

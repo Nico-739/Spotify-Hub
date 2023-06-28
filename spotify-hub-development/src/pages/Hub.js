@@ -13,8 +13,12 @@ const HubPage = () => {
   const [savedTracks, setSavedTracks] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
-  const [followedArtistsTracks, setFollowedArtistsTracks] = useState(null);
+  const [topTracks, settopTracks] = useState(null);
   const [userTopGenres, setUserTopGenres] = useState(null);
+  let trackUri = null;
+  if (savedTracks && savedTracks.items.length > 0) {
+    trackUri = savedTracks.items[0].track.uri;
+  }
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -33,8 +37,8 @@ const HubPage = () => {
         const artists = await getUserTopArtists(accessToken);
         setTopArtists(artists);
 
-        const followedArtistsTracks = await getUserTopTracks(accessToken);
-        setFollowedArtistsTracks(followedArtistsTracks);
+        const topTracks = await getUserTopTracks(accessToken);
+        settopTracks(topTracks);
 
         const topGenres = await getUserTopGenres(accessToken);
         setUserTopGenres(topGenres);
@@ -134,7 +138,7 @@ const HubPage = () => {
         <div className="UserTopTracksSection">
           <h3>Your Top Tracks:</h3>
           <ul>
-            {followedArtistsTracks.map((track) => (
+            {topTracks.map((track) => (
               <li key={track.id}>
                 <p>Name: {track.name}</p>
                 <p>Artists: {track.artists.map((artist) => artist.name).join(', ')}</p>
@@ -163,14 +167,31 @@ const HubPage = () => {
     );
   };
 
+const Player = () => {
+  return (
+    <div>
+      {profileInfo && (
+        <div className="PlayerContainer">
+          <Player
+            accessToken={localStorage.getItem('accessToken')}
+            trackUri={trackUri}
+            className="CustomPlayer"
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
   return (
     <div>
       {profileInfo ? <ProfileSection /> : <div>Loading profile information...</div>}
       {savedTracks ? <SavedTracksSection /> : <div>Loading saved tracks...</div>}
       {userPlaylists ? <UserPlaylistsSection /> : <div>Loading playlists...</div>}
       {topArtists ? <TopArtistsSection /> : <div>Loading your top artists...</div>}
-      {followedArtistsTracks ? <UserTopTracksSection /> : <div>Loading your top tracks...</div>}
+      {topTracks ? <UserTopTracksSection /> : <div>Loading your top tracks...</div>}
       {userTopGenres ? <UserTopGenresSection /> : <div>Loading top genres...</div>}
+      {profileInfo && <Player accessToken={localStorage.getItem('accessToken')} trackUri={trackUri} />}
     </div>
   );
 };

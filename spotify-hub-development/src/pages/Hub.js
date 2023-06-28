@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { fetchAndProcessProfileInfo } from '../components/Profile/ProfileService';
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
 import { getUserTopArtists } from '../components/Artists/ArtistsService';
 import { getUserTopTracks } from '../components/Tracks/TopTracksService';
 import { getUserTopGenres } from '../components/Generes/GeneresService';
-
+import SpotifyPlayer from 'react-spotify-web-playback';
 import '../components/Styles/Hub.css';
 
 const HubPage = () => {
@@ -13,12 +13,9 @@ const HubPage = () => {
   const [savedTracks, setSavedTracks] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
-  const [topTracks, settopTracks] = useState(null);
+  const [topTracks, setTopTracks] = useState(null);
   const [userTopGenres, setUserTopGenres] = useState(null);
-  let trackUri = null;
-  if (savedTracks && savedTracks.items.length > 0) {
-    trackUri = savedTracks.items[0].track.uri;
-  }
+  const playerRef = useRef(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -38,7 +35,7 @@ const HubPage = () => {
         setTopArtists(artists);
 
         const topTracks = await getUserTopTracks(accessToken);
-        settopTracks(topTracks);
+        setTopTracks(topTracks);
 
         const topGenres = await getUserTopGenres(accessToken);
         setUserTopGenres(topGenres);
@@ -67,121 +64,107 @@ const HubPage = () => {
         )}
       </div>
     );
-  };  
+  };
 
   const SavedTracksSection = () => {
     return (
-        <div className="SavedTracksSection">
-          <h3>Liked Songs:</h3>
-          <ul>
-            {savedTracks.items.map((item) => (
-              <li key={item.track.id}>
-                <div>
-                  {item.track.album.images && item.track.album.images.length > 0 && (
-                    <img src={item.track.album.images[0].url} alt="Album" />
-                  )}
-                </div>
-                <div>
-                  <p>{item.track.name}</p>
-                  <p>
-                    {item.track.artists.map((artist) => artist.name).join(', ')}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="SavedTracksSection">
+        <h3>Liked Songs:</h3>
+        <ul>
+          {savedTracks.items.map((item) => (
+            <li key={item.track.id}>
+              <div>
+                {item.track.album.images && item.track.album.images.length > 0 && (
+                  <img src={item.track.album.images[0].url} alt="Album" />
+                )}
+              </div>
+              <div>
+                <p>{item.track.name}</p>
+                <p>{item.track.artists.map((artist) => artist.name).join(', ')}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   };
 
   const UserPlaylistsSection = () => {
     return (
-        <div className="UserPlaylistsSection">
-          <h3>Your Playlists:</h3>
-          <ul>
-            {userPlaylists.map((playlist) => (
-              <li key={playlist.id}>
-                <p>Name: {playlist.name}</p>
-                <p>Owner: {playlist.owner.display_name}</p>
-                <p>Total Tracks: {playlist.tracks.total}</p>
-                {playlist.images && playlist.images.length > 0 && (
-                  <img src={playlist.images[0].url} alt="Playlist Cover" />
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="UserPlaylistsSection">
+        <h3>Your Playlists:</h3>
+        <ul>
+          {userPlaylists.map((playlist) => (
+            <li key={playlist.id}>
+              <p>Name: {playlist.name}</p>
+              <p>Owner: {playlist.owner.display_name}</p>
+              <p>Total Tracks: {playlist.tracks.total}</p>
+              {playlist.images && playlist.images.length > 0 && (
+                <img src={playlist.images[0].url} alt="Playlist Cover" />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   };
 
   const TopArtistsSection = () => {
     return (
-        <div className="TopArtistsSection">
-          <h3>Your Top Artists:</h3>
-          <ul>
-            {topArtists.map((artist) => (
-              <li key={artist.id}>
-                <p>Name: {artist.name}</p>
-                <p>Genre: {artist.genres.join(', ')}</p>
-                {artist.images && artist.images.length > 0 && (
-                  <img src={artist.images[0].url} alt="Artist" />
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="TopArtistsSection">
+        <h3>Your Top Artists:</h3>
+        <ul>
+          {topArtists.map((artist) => (
+            <li key={artist.id}>
+              <p>Name: {artist.name}</p>
+              <p>Genre: {artist.genres.join(', ')}</p>
+              {artist.images && artist.images.length > 0 && (
+                <img src={artist.images[0].url} alt="Artist" />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   };
 
   const UserTopTracksSection = () => {
     return (
-        <div className="UserTopTracksSection">
-          <h3>Your Top Tracks:</h3>
-          <ul>
-            {topTracks.map((track) => (
-              <li key={track.id}>
-                <p>Name: {track.name}</p>
-                <p>Artists: {track.artists.map((artist) => artist.name).join(', ')}</p>
-                <p>Release Date: {track.album.release_date}</p>
-                <p>Popularity: {track.popularity}</p>
-                {track.album.images && track.album.images.length > 0 && (
-                  <img src={track.album.images[0].url} alt="Album" />
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="UserTopTracksSection">
+        <h3>Your Top Tracks:</h3>
+        <ul>
+          {topTracks.map((track) => (
+            <li key={track.id}>
+              <p>Name: {track.name}</p>
+              <p>Artists: {track.artists.map((artist) => artist.name).join(', ')}</p>
+              <p>Release Date: {track.album.release_date}</p>
+              <p>Popularity: {track.popularity}</p>
+              {track.album.images && track.album.images.length > 0 && (
+                <img src={track.album.images[0].url} alt="Album" />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   };
 
   const UserTopGenresSection = () => {
     return (
-        <div className="UserTopGenresSection">
-          <h3>Your Top Genres:</h3>
-          <ul>
-            {userTopGenres.map((genre) => (
-              <li key={genre}>{genre}</li>
-            ))}
-          </ul>
-        </div>
+      <div className="UserTopGenresSection">
+        <h3>Your Top Genres:</h3>
+        <ul>
+          {userTopGenres.map((genre) => (
+            <li key={genre}>{genre}</li>
+          ))}
+        </ul>
+      </div>
     );
   };
 
-const Player = () => {
-  return (
-    <div>
-      {profileInfo && (
-        <div className="PlayerContainer">
-          <Player
-            accessToken={localStorage.getItem('accessToken')}
-            trackUri={trackUri}
-            className="CustomPlayer"
-          />
-        </div>
-      )}
-    </div>
-  );
-};
+  const handlePlayerStateChange = (state) => {
+    // Handle player state change here
+  };
 
   return (
     <div>
@@ -191,8 +174,42 @@ const Player = () => {
       {topArtists ? <TopArtistsSection /> : <div>Loading your top artists...</div>}
       {topTracks ? <UserTopTracksSection /> : <div>Loading your top tracks...</div>}
       {userTopGenres ? <UserTopGenresSection /> : <div>Loading top genres...</div>}
-      {profileInfo && <Player accessToken={localStorage.getItem('accessToken')} trackUri={trackUri} />}
+      <div className="spotify-player-container">
+      {savedTracks && (
+        <SpotifyPlayer
+          ref={playerRef}
+          token={localStorage.getItem('accessToken')}
+          showSaveIcon
+          uris={savedTracks.items.map((item) => item.track.uri)}
+          play={true}
+          magnifySliderOnHover={true}
+          callback={handlePlayerStateChange}
+          styles={{
+            // other styles...
+            activeColor: '#1DB954',
+            bgColor: '#000000',
+            color: '#ffffff',
+            loaderColor: '#1DB954',
+            sliderColor: '#1DB954',
+            trackArtistColor: '#ffffff',
+            trackNameColor: '#ffffff',
+            playButton: {
+              display: 'inline-block',
+              marginRight: '10px',
+            },
+            prevButton: {
+              display: 'inline-block',
+              marginRight: '10px',
+            },
+            nextButton: {
+              display: 'inline-block',
+              marginRight: '10px',
+            },
+          }}
+        />
+      )}
     </div>
+  </div>
   );
 };
 

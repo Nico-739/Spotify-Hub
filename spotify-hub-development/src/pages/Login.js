@@ -11,7 +11,7 @@
       <section>
         <h1>Spotify Hub</h1>
         <h2>Spotify Hub</h2>
-        <button onClick={handleLogin}>Login with Spotify</button>
+        <button className="LoginButton" onClick={handleLogin}>Login with Spotify</button>
       <div class= "blob">
         <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink" width="100%" id="blobSvg">
           <defs>

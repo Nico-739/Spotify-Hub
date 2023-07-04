@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { FaPlay, FaPause, FaStepForward, FaStepBackward } from 'react-icons/fa';
 import { fetchAndProcessProfileInfo } from '../components/Profile/ProfileService';
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
@@ -8,7 +10,6 @@ import { getUserTopGenres } from '../components/Generes/GeneresService';
 import { changeState, changeTrack, refreshAccessToken } from '../components/Player/PlayerService';
 import {CurrentTrack, CurrentImg} from '../components/Tracks/CurrentTrack';
 import '../components/Styles/Hub.css';
-import axios from 'axios';
 
 const HubPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
@@ -229,9 +230,17 @@ const HubPage = () => {
         <h3>Currently Playing:</h3>
         <CurrentTrack className="trackInfo" />
         </div>
-        <button className="playPauseButton" onClick={handlePlayPause}>Play/Pause</button>
-        <button className="nextTrackButton" onClick={() => handleChangeTrack('next')}>Next Track</button>
-        <button className="previousTrackButton" onClick={() => handleChangeTrack('previous')}>Previous Track</button>
+          <div className='ButtonContainer'>
+            <button className="playPauseButton" onClick={handlePlayPause}>
+              {playerState ? <FaPause /> : <FaPlay />}
+            </button>
+            <button className="nextTrackButton" onClick={() => handleChangeTrack('next')}>
+              <FaStepForward />
+            </button>
+            <button className="previousTrackButton" onClick={() => handleChangeTrack('previous')}>
+              <FaStepBackward />
+            </button>
+          </div>
       </div>
     );
   };

@@ -409,7 +409,7 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 20px;
+  padding: 5px;
   font-family: sans-serif;
   border-radius: 10px;
   backdrop-filter: blur(50px);
@@ -419,7 +419,7 @@ body {
 }
 
 .Info {
-  padding-left: 250px;
+  padding-left: 300px;
   display: flex;
   justify-content: left;
   flex-direction: column;
@@ -442,17 +442,6 @@ body {
   flex-direction: column;
 }
 
-.CurrentTrackSection button {
-  margin-right: 10px;
-  padding: 8px 16px;
-  font-size: 1rem;
-  background-color: #fff;
-  color: #000;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 .CurrentTrackSection img {
   width: 250px;
   height: 250px;
@@ -461,17 +450,28 @@ body {
   left: 5px;
 }
 
-.playPauseButton {
-  left: 75%;
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.nextTrackButton {
-  left: 90%;
+.playPauseButton, .nextTrackButton, .previousTrackButton {
+  /* Your existing button styles */
+  z-index: 2;
+  font-family: sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  background-color: rgba(255, 255, 255, 0.145);
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  width: 60px;
+  height: 60px;
+  margin: 5px; /* Add some space between buttons */
 }
 
-.previousTrackButton {
-  left: 60%;
-}
 
 /*CurrentImage*/
 

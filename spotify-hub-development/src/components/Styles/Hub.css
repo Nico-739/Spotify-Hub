@@ -1,11 +1,7 @@
-@keyframes shrinkSection {
-  from {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  to {
-    transform: translate(-50%, -50%) scale(0.8);
-  }
+body {
+  background-color: #3e3e3e;
 }
+
 /*Profile*/
 
 .ProfileSection {
@@ -20,10 +16,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   overflow: auto;
-  padding: 20px;
-  text-align: center;
   font-family: sans-serif;
-  animation: shrinkSection 0.5s linear forwards;
+  transition: transform 0.3s;
   border-radius: 10px;
   backdrop-filter: blur(50px);
   background-color: rgba(255, 255, 255, 0.2);
@@ -31,18 +25,31 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.ProfileSection h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.ProfileSection h3 {
+  padding: 10%;
+  text-align: center;
+}
+
+.ProfileSection li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.ProfileSection li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.ProfileSection img {
+  padding: 5%;
+  width: 130px;
+  height: 150px;
 }
 
 .ProfileSection p {
   margin-bottom: 5px;
-}
-
-.ProfileSection img {
-  width: 50px;
-  height: 50px;
 }
 
 .ProfileSection::-webkit-scrollbar {
@@ -70,7 +77,7 @@
   transform: translate(-50%, -50%);
   overflow: auto;
   font-family: sans-serif;
-  animation: shrinkSection 0.5s linear forwards;
+  transition: transform 0.3s;
   border-radius: 10px;
   backdrop-filter: blur(50px);
   background-color: rgba(255, 255, 255, 0.2);
@@ -79,7 +86,7 @@
 }
 
 .SavedTracksSection h3 {
-  padding: 1%;
+  padding: 2%;
   text-align: center;
 }
 
@@ -129,8 +136,6 @@
 /*Playlist*/
 
 .UserPlaylistsSection {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   width: 300px;
@@ -140,10 +145,8 @@
   left: 30%;
   transform: translate(-50%, -50%);
   overflow: auto;
-  padding: 20px;
-  text-align: center;
   font-family: sans-serif;
-  animation: shrinkSection 0.5s linear forwards;
+  transition: transform 0.3s;
   border-radius: 10px;
   backdrop-filter: blur(50px);
   background-color: rgba(255, 255, 255, 0.2);
@@ -151,9 +154,9 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.UserPlaylistsSection h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.UserPlaylistsSection h3 {
+  padding: 2%;
+  text-align: center;
 }
 
 .UserPlaylistsSection p {
@@ -161,8 +164,28 @@
 }
 
 .UserPlaylistsSection img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
+}
+
+.UserPlaylistsSection li {
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.UserPlaylistsSection li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.UserPlaylistsSection p:nth-child(1) {
+  font-weight: bold;
+}
+
+.UserPlaylistsSection div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
 }
 
 .UserPlaylistsSection::-webkit-scrollbar {
@@ -182,8 +205,6 @@
 /*Top Artists*/
 
 .TopArtistsSection {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   width: 400px;
@@ -193,10 +214,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   overflow: auto;
-  padding: 20px;
-  text-align: center;
   font-family: sans-serif;
-  animation: shrinkSection 0.5s linear forwards;
+  transition: transform 0.3s;
   border-radius: 10px;
   backdrop-filter: blur(50px);
   background-color: rgba(255, 255, 255, 0.2);
@@ -204,9 +223,9 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.TopArtistsSection h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.TopArtistsSection h3 {
+  padding: 2%;
+  text-align: center;
 }
 
 .TopArtistsSection p {
@@ -214,8 +233,28 @@
 }
 
 .TopArtistsSection img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
+}
+
+.TopArtistsSection li {
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.TopArtistsSection li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.TopArtistsSection p:nth-child(1) {
+  font-weight: bold;
+}
+
+.TopArtistsSection div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
 }
 
 .TopArtistsSection::-webkit-scrollbar {
@@ -234,8 +273,6 @@
 /*Top Tracks*/
 
 .UserTopTracksSection {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   width: 370px;
@@ -245,10 +282,8 @@
   left: 11%;
   transform: translate(-50%, -50%);
   overflow: auto;
-  padding: 20px;
-  text-align: center;
   font-family: sans-serif;
-  animation: shrinkSection 0.5s linear forwards;
+  transition: transform 0.3s;
   border-radius: 10px;
   backdrop-filter: blur(50px);
   background-color: rgba(255, 255, 255, 0.2);
@@ -256,9 +291,9 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.UserTopTracksSection h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.UserTopTracksSection h3 {
+  padding: 2%;
+  text-align: center;
 }
 
 .UserTopTracksSection p {
@@ -266,8 +301,28 @@
 }
 
 .UserTopTracksSection img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
+}
+
+.UserTopTracksSection li {
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.UserTopTracksSection li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.UserTopTracksSection p:nth-child(1) {
+  font-weight: bold;
+}
+
+.UserTopTracksSection div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
 }
 
 .UserTopTracksSection::-webkit-scrollbar {
@@ -287,8 +342,6 @@
 /*Top Generes*/
 
 .UserTopGenresSection {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   width: 370px;
@@ -298,10 +351,8 @@
   left: 89%;
   transform: translate(-50%, -50%);
   overflow: auto;
-  padding: 20px;
-  text-align: center;
   font-family: sans-serif;
-  animation: shrinkSection 0.5s linear forwards;
+  transition: transform 0.3s;
   border-radius: 10px;
   backdrop-filter: blur(50px);
   background-color: rgba(255, 255, 255, 0.2);
@@ -309,18 +360,33 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.UserTopGenresSection h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.UserTopGenresSection h3 {
+  padding: 2%;
+  text-align: center;
 }
 
 .UserTopGenresSection p {
   margin-bottom: 5px;
 }
 
-.UserTopGenresSection img {
-  width: 50px;
-  height: 50px;
+.UserTopGenresSection li {
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.UserTopGenresSection li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.UserTopGenresSection p:nth-child(1) {
+  font-weight: bold;
+}
+
+.UserTopGenresSection div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
 }
 
 .UserTopGenresSection::-webkit-scrollbar {
@@ -336,26 +402,44 @@
   background: #55555580;
 }
 
+
+/*CurrentTrack*/
+
 .CurrentTrackSection {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   padding: 20px;
   font-family: sans-serif;
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(50px);
+}
+
+.Info {
+  padding-left: 250px;
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
 }
 
 .CurrentTrackSection h3 {
-  font-size: 1.2rem;
+  padding-bottom: 0.5%;
+}
+
+.CurrentTrackSection p {
+  margin-bottom: 1px;
+}
+
+.CurrentTrackSection p:nth-child(1) {
+  font-weight: bold;
+}
+
+.CurrentTrackSection div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
 }
 
 .CurrentTrackSection button {
@@ -389,7 +473,7 @@
   left: 60%;
 }
 
-
+/*CurrentImage*/
 
 .current-img-container {
   position: fixed;
@@ -409,4 +493,3 @@
   width: 210vh;
   object-fit: cover;
 }
-

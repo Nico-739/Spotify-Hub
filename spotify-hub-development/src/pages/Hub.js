@@ -5,9 +5,10 @@ import { getUserPlaylists } from '../components/Playlist/PlaylistService';
 import { getUserTopArtists } from '../components/Artists/ArtistsService';
 import { getUserTopTracks } from '../components/Tracks/TopTracksService';
 import { getUserTopGenres } from '../components/Generes/GeneresService';
-import { changeState, changeTrack } from '../components/Player/PlayerService';
+import { changeState, changeTrack, refreshAccessToken } from '../components/Player/PlayerService';
 import {CurrentTrack, CurrentImg} from '../components/Tracks/CurrentTrack';
 import '../components/Styles/Hub.css';
+import axios from 'axios';
 
 const HubPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
@@ -23,6 +24,10 @@ const HubPage = () => {
     const fetchProfileData = async () => {
       try {
         const accessToken = localStorage.getItem('accessToken');
+
+        if (!accessToken) {
+          await refreshAccessToken();
+        }
 
         const processedData = await fetchAndProcessProfileInfo(accessToken);
         setProfileInfo(processedData);
@@ -47,7 +52,42 @@ const HubPage = () => {
     };
 
     fetchProfileData();
+    const interval = setInterval(fetchProfileData, 60000);
+
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+
+        const response = await axios.get("https://api.spotify.com/v1/me/player/currently-playing", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        if (response.data !== "") {
+          const currentPlaying = {
+            id: response.data.item.id,
+            name: response.data.item.name,
+            artists: response.data.item.artists.map((artist) => artist.name),
+            image: response.data.item.album.images[2].url,
+          };
+
+          setPlaying(currentPlaying);
+        } else {
+          setPlaying(null);
+        }
+      } catch (error) {
+        console.error("Error updating current track:", error);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [setPlaying]);
 
   const ProfileSection = () => {
     return (
@@ -60,7 +100,6 @@ const HubPage = () => {
         </div>
         {profileInfo.images && profileInfo.images.length > 0 && (
           <div className="profile-image">
-            <p>Profile Image:</p>
             <img src={profileInfo.images[0].url} alt="Profile" />
           </div>
         )}
@@ -186,8 +225,10 @@ const HubPage = () => {
 
     return (
       <div className="CurrentTrackSection">
+        <div className='Info'>
         <h3>Currently Playing:</h3>
-        <CurrentTrack className />
+        <CurrentTrack className="trackInfo" />
+        </div>
         <button className="playPauseButton" onClick={handlePlayPause}>Play/Pause</button>
         <button className="nextTrackButton" onClick={() => handleChangeTrack('next')}>Next Track</button>
         <button className="previousTrackButton" onClick={() => handleChangeTrack('previous')}>Previous Track</button>

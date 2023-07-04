@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const refreshAccessToken = async () => {
+const refreshAccessToken = async () => {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
 
@@ -48,12 +48,23 @@ const changeState = async (playerState, token, dispatch) => {
   const url = `https://api.spotify.com/v1/me/player/${state}`;
 
   try {
-    await axios.put(url, {}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    if (state === "play") {
+      // If the current state is "pause", send the play request
+      await axios.put(url, {}, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else {
+      // If the current state is "play", send the pause request
+      await axios.put(url, {}, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
 
     dispatch({
       type: "SET_PLAYER_STATE",
@@ -94,9 +105,9 @@ const changeTrack = async (type, token, dispatch) => {
         image: response.data.item.album.images[2].url,
       };
 
-      dispatch({ type: "SET_PLAYING", currentPlaying });
+      dispatch({ type: "SET_CURRENT_PLAYING", currentPlaying });
     } else {
-      dispatch({ type: "SET_PLAYING", currentPlaying: null });
+      dispatch({ type: "SET_CURRENT_PLAYING", currentPlaying: null });
     }
   } catch (error) {
     console.error("Error changing track:", error);
@@ -104,5 +115,49 @@ const changeTrack = async (type, token, dispatch) => {
   }
 };
 
-export { changeState, changeTrack };
+const startPlayback = async (token, contextUri = null, uris = null, offset = null) => {
+  const url = "https://api.spotify.com/v1/me/player/play";
+  const deviceId = localStorage.getItem("deviceId");
 
+  const data = {
+    device_id: deviceId,
+    context_uri: contextUri,
+    uris: uris,
+    offset: offset,
+  };
+
+  try {
+    await axios.put(url, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error starting playback:", error);
+    throw error;
+  }
+};
+
+const pausePlayback = async (token) => {
+  const url = "https://api.spotify.com/v1/me/player/pause";
+  const deviceId = localStorage.getItem("deviceId");
+
+  const data = {
+    device_id: deviceId,
+  };
+
+  try {
+    await axios.put(url, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error pausing playback:", error);
+    throw error;
+  }
+};
+
+export { changeState, changeTrack, refreshAccessToken, startPlayback, pausePlayback };

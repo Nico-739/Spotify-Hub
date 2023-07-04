@@ -8,6 +8,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "blueimp-load-image": "^5.16.0",
+    "colorthief": "^2.4.0",
     "framer-motion": "^10.12.17",
     "framer-motion-3d": "^10.12.16",
     "react": "^18.2.0",
@@ -18,7 +20,10 @@
     "react-spotify-web-playback": "^0.14.0",
     "spotify-web-api-js": "^1.5.2",
     "spotify-web-api-node": "^5.0.2",
+    "stream": "^0.0.2",
+    "stream-browserify": "^3.0.0",
     "three": "^0.153.0",
+    "vibrant": "^0.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

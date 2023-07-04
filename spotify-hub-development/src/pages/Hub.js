@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchAndProcessProfileInfo } from '../components/Profile/ProfileService';
 import { getSavedTracks } from '../components/Tracks/TracksService';
 import { getUserPlaylists } from '../components/Playlist/PlaylistService';
 import { getUserTopArtists } from '../components/Artists/ArtistsService';
 import { getUserTopTracks } from '../components/Tracks/TopTracksService';
 import { getUserTopGenres } from '../components/Generes/GeneresService';
-import SpotifyPlayer from 'react-spotify-web-playback';
+import { changeState, changeTrack } from '../components/Player/PlayerService';
+import {CurrentTrack, CurrentImg} from '../components/Tracks/CurrentTrack';
 import '../components/Styles/Hub.css';
 
 const HubPage = () => {
@@ -15,7 +16,8 @@ const HubPage = () => {
   const [topArtists, setTopArtists] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
   const [userTopGenres, setUserTopGenres] = useState(null);
-  const playerRef = useRef(null);
+  const [setPlayerState] = useState(false);
+  const [setPlaying] = useState(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -162,10 +164,45 @@ const HubPage = () => {
     );
   };
 
-  const handlePlayerStateChange = (state) => {
-    // Handle player state change here
+  const CurrentTrackSection = () => {
+    const playerState = true;
+    const token = localStorage.getItem('accessToken');
+
+    const handlePlayPause = async () => {
+      try {
+        await changeState(playerState, token, setPlayerState);
+      } catch (error) {
+        console.error('Error changing player state:', error);
+      }
+    };
+
+    const handleChangeTrack = async (type) => {
+      try {
+        await changeTrack(type, token, setPlaying);
+      } catch (error) {
+        console.error('Error changing track:', error);
+      }
+    };
+
+    return (
+      <div className="CurrentTrackSection">
+        <h3>Currently Playing:</h3>
+        <CurrentTrack className />
+        <button className="playPauseButton" onClick={handlePlayPause}>Play/Pause</button>
+        <button className="nextTrackButton" onClick={() => handleChangeTrack('next')}>Next Track</button>
+        <button className="previousTrackButton" onClick={() => handleChangeTrack('previous')}>Previous Track</button>
+      </div>
+    );
   };
 
+  const AlbumImgSection = () => {
+    return (
+      <div className="current-img-container">
+        <CurrentImg/>
+      </div>
+    );
+  };
+  
   return (
     <div>
       {profileInfo ? <ProfileSection /> : <div>Loading profile information...</div>}
@@ -174,41 +211,8 @@ const HubPage = () => {
       {topArtists ? <TopArtistsSection /> : <div>Loading your top artists...</div>}
       {topTracks ? <UserTopTracksSection /> : <div>Loading your top tracks...</div>}
       {userTopGenres ? <UserTopGenresSection /> : <div>Loading top genres...</div>}
-      <div className="spotify-player-container">
-      {savedTracks && (
-        <SpotifyPlayer
-          ref={playerRef}
-          token={localStorage.getItem('accessToken')}
-          showSaveIcon
-          uris={savedTracks.items.map((item) => item.track.uri)}
-          play={true}
-          magnifySliderOnHover={true}
-          callback={handlePlayerStateChange}
-          styles={{
-            // other styles...
-            activeColor: '#1DB954',
-            bgColor: '#000000',
-            color: '#ffffff',
-            loaderColor: '#1DB954',
-            sliderColor: '#1DB954',
-            trackArtistColor: '#ffffff',
-            trackNameColor: '#ffffff',
-            playButton: {
-              display: 'inline-block',
-              marginRight: '10px',
-            },
-            prevButton: {
-              display: 'inline-block',
-              marginRight: '10px',
-            },
-            nextButton: {
-              display: 'inline-block',
-              marginRight: '10px',
-            },
-          }}
-        />
-      )}
-    </div>
+      {profileInfo ? <CurrentTrackSection /> :  <div>Loading current tracks...</div>} 
+      {profileInfo ? <AlbumImgSection /> :  <div>Loading current Img...</div>} 
   </div>
   );
 };

@@ -42,3 +42,67 @@ export const refreshAccessToken = async () => {
     throw error;
   }
 };
+
+const changeState = async (playerState, token, dispatch) => {
+  const state = playerState ? "pause" : "play";
+  const url = `https://api.spotify.com/v1/me/player/${state}`;
+
+  try {
+    await axios.put(url, {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch({
+      type: "SET_PLAYER_STATE",
+      playerState: !playerState,
+    });
+  } catch (error) {
+    console.error("Error changing player state:", error);
+    throw error;
+  }
+};
+
+const changeTrack = async (type, token, dispatch) => {
+  const url = `https://api.spotify.com/v1/me/player/${type}`;
+  const currentlyPlayingUrl = "https://api.spotify.com/v1/me/player/currently-playing";
+
+  try {
+    await axios.post(url, {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch({ type: "SET_PLAYER_STATE", playerState: true });
+
+    const response = await axios.get(currentlyPlayingUrl, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.data !== "") {
+      const currentPlaying = {
+        id: response.data.item.id,
+        name: response.data.item.name,
+        artists: response.data.item.artists.map((artist) => artist.name),
+        image: response.data.item.album.images[2].url,
+      };
+
+      dispatch({ type: "SET_PLAYING", currentPlaying });
+    } else {
+      dispatch({ type: "SET_PLAYING", currentPlaying: null });
+    }
+  } catch (error) {
+    console.error("Error changing track:", error);
+    throw error;
+  }
+};
+
+export { changeState, changeTrack };
+

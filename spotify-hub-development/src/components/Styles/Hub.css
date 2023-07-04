@@ -6,7 +6,6 @@
     transform: translate(-50%, -50%) scale(0.8);
   }
 }
-
 /*Profile*/
 
 .ProfileSection {
@@ -337,33 +336,77 @@
   background: #55555580;
 }
 
-.spotify-player-container {
-  font-family: sans-serif;
+.CurrentTrackSection {
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
   width: 100%;
-  max-width: auto;
-  flex-direction: row;
-}
-
-._ControlsButtonsRSWP {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(50px);
 }
 
-._ControlsButtonRSWP {
-  /* Your button styles here */
-  margin-right: 10px; /* Add some spacing between the buttons */
+.CurrentTrackSection h3 {
+  font-size: 1.2rem;
 }
 
-/* Remove the margin from the last button to avoid extra spacing */
-._ControlsButtonRSWP:last-child {
-  margin-right: 0;
+.CurrentTrackSection button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
+.CurrentTrackSection img {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}
+
+.playPauseButton {
+  left: 75%;
+}
+
+.nextTrackButton {
+  left: 90%;
+}
+
+.previousTrackButton {
+  left: 60%;
+}
+
+
+
+.current-img-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  filter: blur(50px);
+}
+
+.current-img-container img {
+  height: 210vh;
+  width: 210vh;
+  object-fit: cover;
+}
 
